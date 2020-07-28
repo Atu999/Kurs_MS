@@ -1,4 +1,4 @@
-# Lekcja 7. Course Service, po zadaniu 3
+# Wersja 8. Course Service, po zadaniu 4.1
 
 ### Eureka Service 
 Usługa dynamiczne rejestrująca instancji wszystkich serwisów (w tym projekcie nie rejestrujemy Eureki samem w sobie).
@@ -82,3 +82,5 @@ Przykładowe body:
         "status": "ACTIVE"
     }
 ```
+
+ **Zapisywanie studenta na kurs**         - POST *http://localhost:8087/courses/{courseCode}/student/{studentId}*

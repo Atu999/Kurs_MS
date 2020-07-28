@@ -2,6 +2,7 @@ package com.artur.courses.controller;
 
 import com.artur.courses.model.Course;
 import com.artur.courses.service.CourseService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,5 +31,11 @@ public class CourseController {
     @GetMapping("/{code}")
     public Course getCourse(@PathVariable String code) {
         return courseService.getCourse(code);
+    }
+
+    @PostMapping("/{courseCode}/student/{studentId}")
+    public ResponseEntity<?> curseEnrollment(@PathVariable String courseCode, @PathVariable Long studentId) {
+        courseService.courseEnrollment(courseCode, studentId);
+        return ResponseEntity.ok().build();
     }
 }

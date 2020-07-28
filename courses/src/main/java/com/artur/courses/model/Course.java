@@ -2,6 +2,8 @@ package com.artur.courses.model;
 
 import com.artur.courses.exception.CourseError;
 import com.artur.courses.exception.CourseException;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,8 +12,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document
+@Getter
+@Setter
 public class Course {
 
     @Id
@@ -33,16 +39,25 @@ public class Course {
     @NotNull
     private Status status;
 
+    private List<CourseMember> courseMembers = new ArrayList<>();
+
     public enum Status {
         ACTIVE,
         INACTIVE,
         FULL
     }
 
-    public void validateCourse(){
+    public void validateCourse() {
         validateCourseDate();
         validateParticipantsLimit();
         validateStatus();
+    }
+
+    public void incrementParticipantsNumber() {
+        participantsNumber++;
+        if (participantsNumber.equals(participantsLimit)) {
+            setStatus(Course.Status.FULL);
+        }
     }
 
     private void validateCourseDate() {
@@ -61,72 +76,8 @@ public class Course {
         if (Status.FULL.equals(status) && !participantsNumber.equals(participantsLimit)) {
             throw new CourseException(CourseError.COURSE_CAN_NOT_SET_FULL_STATUS);
         }
-        if(Status.ACTIVE.equals(status) && participantsNumber.equals(participantsLimit) ){
+        if (Status.ACTIVE.equals(status) && participantsNumber.equals(participantsLimit)) {
             throw new CourseException(CourseError.COURSE_CAN_NOT_SET_ACTIVE_STATUS);
         }
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDateTime getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
-    }
-
-    public Long getParticipantsLimit() {
-        return participantsLimit;
-    }
-
-    public void setParticipantsLimit(Long participantsLimit) {
-        this.participantsLimit = participantsLimit;
-    }
-
-    public Long getParticipantsNumber() {
-        return participantsNumber;
-    }
-
-    public void setParticipantsNumber(Long participantsNumber) {
-        this.participantsNumber = participantsNumber;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 }

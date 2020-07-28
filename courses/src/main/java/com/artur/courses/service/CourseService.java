@@ -11,4 +11,6 @@ public interface CourseService {
     Course getCourse(String code);
 
     Course addCourse(Course course);
+
+    void courseEnrollment(String courseCode, Long studentId);
 }
