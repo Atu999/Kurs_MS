@@ -1,4 +1,4 @@
-#Wersja 10. Course Service, po zadaniu 5.1
+# Wersja 11. Course Service, po zadaniu 5.1
 
 ### Eureka Service 
 Usługa dynamiczne rejestrująca instancji wszystkich serwisów (w tym projekcie nie rejestrujemy Eureki samem w sobie).
@@ -51,6 +51,7 @@ Przykładowe body:
 ```
 
 **Modyfikacja części zasobu student** - PATCH  *http://localhost:8080/students/{id}*
+Przykładowe body:
 ```
 {
    "firstName":"Arnoldek"
@@ -58,6 +59,7 @@ Przykładowe body:
 ```
 
 **Pobieranie studentów po liscie emaili** - POST  *http://localhost:8080/students/emails*
+Przykładowe body:
 ```
 [
    "pazdzioch@gmail.com",
@@ -95,3 +97,19 @@ Przykładowe body:
  **Wyświetlanie listy uczestników kursu**      -GET *http://localhost:8087/courses/{code}/members*
  
  **Zakończenie zapisów na kurs**            POST *http://localhost:8087/courses/{code}/finish-enroll*
+ 
+### Notification Service 
+Usługa odpowiedzialna za pobieranie wiadomości z kolejki RabbitMQ i wysyłanie notyfikacji.
+ 
+ **Wysyłanie notyfikacji**  - GET *http://localhost:8099/email*
+Przykładowe body:
+ ```
+ {
+    "to":"konik@gmail.com",
+    "title":"Witaj zwierzaku!",
+    "content":"Czy to prawda, że konie są rodziną z kucami?"
+ }
+ ```
+  
+
+ 
