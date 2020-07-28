@@ -1,4 +1,4 @@
-# Wersja 4. Course Service, przed zadaniem 3
+# Lekcja 7. Course Service, po zadaniu 3
 
 ### Eureka Service 
 Usługa dynamiczne rejestrująca instancji wszystkich serwisów (w tym projekcie nie rejestrujemy Eureki samem w sobie).
@@ -51,6 +51,7 @@ Przykładowe body:
 ```
 
 **Modyfikacja części zasobu student** - PATCH  *http://localhost:8080/students/{id}*
+Przykładowe body:
 ```
 {
    "firstName":"Arnoldek"
@@ -59,7 +60,7 @@ Przykładowe body:
 
 ### Course Service
 
-**Pobieranie listy kursów** 
+**Pobieranie listy kursów** Opcjonalny parametr „status”
  
  GET *http://localhost:8087/courses*
  
@@ -77,6 +78,7 @@ Przykładowe body:
         "startDate": "2020-10-10T08:00:00.274",
         "endDate": "2020-10-20T17:00:00.274",
         "participantsLimit": 6,
-        "participantsNumber": 0
+        "participantsNumber": 0,
+        "status": "ACTIVE"
     }
 ```

@@ -1,5 +1,7 @@
 package com.artur.courses.model;
 
+import com.artur.courses.exception.CourseError;
+import com.artur.courses.exception.CourseException;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -28,6 +30,41 @@ public class Course {
     @NotNull
     @Min(0)
     private Long participantsNumber;
+    @NotNull
+    private Status status;
+
+    public enum Status {
+        ACTIVE,
+        INACTIVE,
+        FULL
+    }
+
+    public void validateCourse(){
+        validateCourseDate();
+        validateParticipantsLimit();
+        validateStatus();
+    }
+
+    private void validateCourseDate() {
+        if (startDate.isAfter(endDate)) {
+            throw new CourseException(CourseError.COURSE_START_DATE_IS_AFTER_END_DATE);
+        }
+    }
+
+    private void validateParticipantsLimit() {
+        if (participantsNumber > participantsLimit) {
+            throw new CourseException(CourseError.COURSE_PARTICIPANTS_LIMIT_IS_EXCEEDED);
+        }
+    }
+
+    private void validateStatus() {
+        if (Status.FULL.equals(status) && !participantsNumber.equals(participantsLimit)) {
+            throw new CourseException(CourseError.COURSE_CAN_NOT_SET_FULL_STATUS);
+        }
+        if(Status.ACTIVE.equals(status) && participantsNumber.equals(participantsLimit) ){
+            throw new CourseException(CourseError.COURSE_CAN_NOT_SET_ACTIVE_STATUS);
+        }
+    }
 
     public String getCode() {
         return code;
@@ -83,5 +120,13 @@ public class Course {
 
     public void setParticipantsNumber(Long participantsNumber) {
         this.participantsNumber = participantsNumber;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

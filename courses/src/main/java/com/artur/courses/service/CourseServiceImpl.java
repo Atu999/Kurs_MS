@@ -17,7 +17,10 @@ public class CourseServiceImpl implements CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public List<Course> getCourses() {
+    public List<Course> getCourses(Course.Status status) {
+        if (status != null) {
+            return courseRepository.findAllByStatus(status);
+        }
         return courseRepository.findAll();
     }
 
@@ -27,6 +30,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     public Course addCourse(Course course) {
+        course.validateCourse();
         return courseRepository.save(course);
     }
 }

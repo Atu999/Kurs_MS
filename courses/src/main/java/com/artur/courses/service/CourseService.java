@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CourseService {
 
-    List<Course> getCourses();
+    List<Course> getCourses(Course.Status status);
 
     Course getCourse(String code);
 
