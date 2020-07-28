@@ -31,7 +31,8 @@ public class MessageController {
 
     @RabbitListener(queues = "kurs")
     public void listenerMessage(Notification notification) {
-        //warto dodać walidacje czy to jest obiek Notification
-        System.out.println("Email: " +notification.getEmail() + " Title: " + notification.getTitle() + " Body: " + notification.getBody());
+        //warto dodać walidacje czy to jest obiek Notification
+        System.out.println("Email: " + notification.getEmail() + " Title: "
+                + notification.getTitle() + " Body: " + notification.getBody());
     }
 }
