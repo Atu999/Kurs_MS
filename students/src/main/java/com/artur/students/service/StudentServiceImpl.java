@@ -83,4 +83,8 @@ public class StudentServiceImpl implements StudentService {
                     return studentRepository.save(studentFromDb);
                 }).orElseThrow(() -> new StudentException(StudentError.STUDENT_NOT_FOUND));
     }
+
+    public List<Student> getStudentsByEmails(List<String> emails) {
+        return studentRepository.findAllByEmailIn(emails);
+    }
 }

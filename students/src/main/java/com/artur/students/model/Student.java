@@ -1,10 +1,16 @@
 package com.artur.students.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
 @SequenceGenerator(name = "seqIdGen", initialValue = 20000, allocationSize = 1)
+@Getter
+@Setter
 public class Student {
 
     @Id
@@ -30,45 +36,5 @@ public class Student {
     public enum Status {
         ACTIVE,
         INACTIVE
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 }

@@ -6,10 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository // Ta adnotacja jest opcjonalna
+@Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
     boolean existsByEmail(String email);
 
     List<Student> findAllByStatus(Student.Status status);
+
+    List<Student> findAllByEmailIn(List<String> emails);
 }

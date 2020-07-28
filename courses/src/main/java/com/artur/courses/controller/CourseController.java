@@ -1,6 +1,7 @@
 package com.artur.courses.controller;
 
 import com.artur.courses.model.Course;
+import com.artur.courses.model.dto.StudentDto;
 import com.artur.courses.service.CourseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +38,10 @@ public class CourseController {
     public ResponseEntity<?> curseEnrollment(@PathVariable String courseCode, @PathVariable Long studentId) {
         courseService.courseEnrollment(courseCode, studentId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{code}/members")
+    public List<StudentDto> getCourseMembers(@PathVariable String code) {
+        return courseService.getCourseMembers(code);
     }
 }

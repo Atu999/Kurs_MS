@@ -10,8 +10,7 @@ public enum CourseError {
             " Participants limit is equals participants number"),
     COURSE_IS_NOT_ACTIVE("Course is not Active"),
     STUDENT_IS_NOT_ACTIVE("Student is not Active"),
-    STUDENT_ALREADY_ENROLLED("Student already enrolled on this course"),
-    STUDENT_CANNOT_BE_ENROLL("Student cannot be enroll on course");
+    STUDENT_ALREADY_ENROLLED("Student already enrolled on this course");
 
     private String message;
 

@@ -17,4 +17,6 @@ public interface StudentService {
     Student putStudent(Long id, Student student);
 
     Student patchStudent(Long id, Student student);
+
+    List<Student> getStudentsByEmails(List<String> emails);
 }
