@@ -1,32 +1,22 @@
-# Wersja 1. Rest API
+# Wersja 2 Komunikacja asynchroniczna - łączenie dwóch aplikacji.
 
-### Students Application
-**Pobieranie listy studentów** - GET *http://localhost:8080/students*
+Pamiętaj, żeby w pliku application.properties w projekcie publisher i receiver ustawić swoje namiary na RabbitMQ.
+Publisher wysyłanie notyfikacji na RabbitMq
 
-**Pobieranie studenta po Id**  - GET *http://localhost:8080/students/{id}*
+POST http://localhost:8085/notification 
 
-**Dodawanie studenta**         - POST *http://localhost:8080/students*
-Przykładowe body:
-```
 {
-   "firstName":"Arnold",
-   "lastName":"Boczek",
-   "email":"arnold@gmail.com"
+   "email": "marian@gmial.com",
+   "title": "Witaj!",
+   "body": "Miło, że jesteś z nami!"
 }
-```
-**Modyfikacja całego zasobu student** - PUT *http://localhost:8080/students/{id}*
-Przykładowe body:
-```
-{
-   "firstName":"Arnoldek",
-   "lastName":"Boczek",
-   "email":"arnold@gmail.com"
-}
-```
 
-**Modyfikacja części zasobu student** - PATCH  *http://localhost:8080/students/{id}*
-```
-{
-   "firstName":"Arnoldek"
-}
-```
+
+
+
+Reciver automatycznie pobiera notyfikację dzięki @RabbitListener.
+Jeśli chce pobrać notyfikację "manualnie" możesz za komentować @RabbitListener i wywołać endpoint:
+
+GET http://localhost:8090/notification
+
+
