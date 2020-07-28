@@ -1,4 +1,4 @@
-# Wersja 4. Po refactor aplikacji students. Przed zadaniem 2
+# Wersja 4. Course Service, przed zadaniem 3
 
 ### Eureka Service 
 Usługa dynamiczne rejestrująca instancji wszystkich serwisów (w tym projekcie nie rejestrujemy Eureki samem w sobie).
@@ -9,15 +9,25 @@ Podgląd zarejestrowanych usług (konsola eureki):
 
 ### Gateway Service 
 Bramka proxy odbierająca wszystkie żądania przychodzące z interfejsu użytkownika.
-Przekierowuje ruch do odpowiednich usług. Pobranie listy studentów za pośrednictwem gateway:
+Przekierowuje ruch do odpowiednich usług. 
+
+Przekierowanie ruchu do Students Service - Pobranie listy studentów:
 
 *http://localhost:9000/api/students*
 
+Przekierowanie ruchu do Course Service - Pobranie listy kursów:
+
+*http://localhost:9000/api/courses*
+
 ### Students Service
 
-**Pobieranie listy studentów** - GET *http://localhost:8080/students*
+**Pobieranie listy studentów** Opcjonalny parametr „status”.
+ 
+ GET *http://localhost:8080/students*
 
-**Pobieranie studenta po Id**  - GET *http://localhost:8080/students/{id}*
+**Pobieranie studenta po Id**  
+
+ GET *http://localhost:8080/students/{id}*
 
 **Dodawanie studenta**         - POST *http://localhost:8080/students*
 Przykładowe body:
@@ -25,7 +35,8 @@ Przykładowe body:
 {
    "firstName":"Arnold",
    "lastName":"Boczek",
-   "email":"arnold@gmail.com"
+   "email":"arnold@gmail.com",
+   "status": "ACTIVE"
 }
 ```
 **Modyfikacja całego zasobu student** - PUT *http://localhost:8080/students/{id}*
@@ -34,7 +45,8 @@ Przykładowe body:
 {
    "firstName":"Arnoldek",
    "lastName":"Boczek",
-   "email":"arnold@gmail.com"
+   "email":"arnold@gmail.com",
+   "status": "ACTIVE"
 }
 ```
 
@@ -45,3 +57,26 @@ Przykładowe body:
 }
 ```
 
+### Course Service
+
+**Pobieranie listy kursów** 
+ 
+ GET *http://localhost:8087/courses*
+ 
+ **Pobieranie kursu po code (Id)**  
+ 
+ GET *http://localhost:8087/courses/{code}*
+ 
+ **Dodawanie kursu**         - POST *http://localhost:8087/courses*
+Przykładowe body:
+```
+    {
+        "code": "Java_2020",
+        "name": "Java 8",
+        "description": "Nauka Javy 8, poziom średnio-zawansowany",
+        "startDate": "2020-10-10T08:00:00.274",
+        "endDate": "2020-10-20T17:00:00.274",
+        "participantsLimit": 6,
+        "participantsNumber": 0
+    }
+```
