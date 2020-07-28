@@ -1,4 +1,4 @@
-# Lekcja 7. Course Service, po zadaniu 3
+# Wersja 7. Course Service, po zadaniu 3
 
 ### Eureka Service 
 Usługa dynamiczne rejestrująca instancji wszystkich serwisów (w tym projekcie nie rejestrujemy Eureki samem w sobie).
