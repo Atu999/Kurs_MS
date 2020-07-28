@@ -1,4 +1,4 @@
-# Wersja 4. Po refactor aplikacji students. Przed zadaniem 2
+# Wersja 5. Po refactor aplikacji students. Przed zadaniem 2
 
 ### Eureka Service 
 Usługa dynamiczne rejestrująca instancji wszystkich serwisów (w tym projekcie nie rejestrujemy Eureki samem w sobie).
