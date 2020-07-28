@@ -1,19 +1,17 @@
 package com.artur.students.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Entity
+@SequenceGenerator(name = "seqIdGen", initialValue = 20000, allocationSize = 1)
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqIdGen")
     private Long id;
 
     @NotBlank
@@ -25,6 +23,7 @@ public class Student {
 
     @NotBlank
     @Email
+    @Column(unique = true)
     private String email;
 
     public Long getId() {

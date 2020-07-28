@@ -1,14 +1,17 @@
-package com.artur.students;
+package com.artur.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class StudentsApplication {
+@EnableZuulProxy
+public class GatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(StudentsApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
+
 }
