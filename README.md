@@ -1,115 +1,63 @@
-# Wersja 11. Course Service, po zadaniu 5.1
+# Zabezpieczenie aplikacji za pomocą OAuth2
 
-### Eureka Service 
-Usługa dynamiczne rejestrująca instancji wszystkich serwisów (w tym projekcie nie rejestrujemy Eureki samem w sobie).
-Podgląd zarejestrowanych usług (konsola eureki):
+### Auth Service 
+Usługa odpowiedzialna za wydawanie i weryfikację tokenu.
 
-*http://localhost:8761*
+**Wydawanie tokenu:**
+ POST *http://localhost:8888/oauth/token*
 
-
-### Gateway Service 
-Bramka proxy odbierająca wszystkie żądania przychodzące z interfejsu użytkownika.
-Przekierowuje ruch do odpowiednich usług. 
-
-Przekierowanie ruchu do Students Service - Pobranie listy studentów:
-
-*http://localhost:9000/api/students*
-
-Przekierowanie ruchu do Course Service - Pobranie listy kursów:
-
-*http://localhost:9000/api/courses*
-
-### Students Service
-
-**Pobieranie listy studentów** Opcjonalny parametr „status”.
- 
- GET *http://localhost:8080/students*
-
-**Pobieranie studenta po Id**  
-
- GET *http://localhost:8080/students/{id}*
-
-**Dodawanie studenta**         - POST *http://localhost:8080/students*
-Przykładowe body:
+Aby otrzymać token klient musi być zaufany, czyli przedstawić się serwerowi 
+autoryzacyjnemu za pomocą akceptowalnych przez niego client_id i password.
+Wykonuję się to za pomocą Authorisation Basic Auth:
 ```
-{
-   "firstName":"Arnold",
-   "lastName":"Boczek",
-   "email":"arnold@gmail.com",
-   "status": "ACTIVE"
-}
+Username = kurs
+Password = kurs1
 ```
-**Modyfikacja całego zasobu student** - PUT *http://localhost:8080/students/{id}*
-Przykładowe body:
+W body request należy przekazać dane o tym, z jakiego grant type ma korzystać
+Oauth2 przy wydawaniu tokenu oraz dla kogo ma być wydany token. Czyli jeśli chcemy 
+dostać token dla username=admin, należy w body w sekcji x-www-form-urlencoded podać:
 ```
-{
-   "firstName":"Arnoldek",
-   "lastName":"Boczek",
-   "email":"arnold@gmail.com",
-   "status": "ACTIVE"
-}
+grant_type = password
+username = admin
+password = admin1
 ```
 
-**Modyfikacja części zasobu student** - PATCH  *http://localhost:8080/students/{id}*
-Przykładowe body:
-```
-{
-   "firstName":"Arnoldek"
-}
-```
+ **Weryfikacja tokenu:** POST *http://localhost:8888/oauth/check_token*
 
-**Pobieranie studentów po liscie emaili** - POST  *http://localhost:8080/students/emails*
-Przykładowe body:
+Aplikacja jest zaimplementowana w taki sposób, że token może zweryfikować tylko zaufany
+klient. Aby zweryfikować token należy podać w request Authorisation Basic Auth:
 ```
-[
-   "pazdzioch@gmail.com",
-   "boczek@gmail.com"
-]
+Username = kurs
+Password = kurs1
 ```
-
-### Course Service
-
-**Pobieranie listy kursów** Opcjonalny parametr „status”
- 
- GET *http://localhost:8087/courses*
- 
- **Pobieranie kursu po code (Id)**  
- 
- GET *http://localhost:8087/courses/{code}*
- 
- **Dodawanie kursu**         - POST *http://localhost:8087/courses*
-Przykładowe body:
+Następnie przekazać wartość tokenu w body request w opcji 
+form-date:
 ```
-    {
-        "code": "Java_2020",
-        "name": "Java 8",
-        "description": "Nauka Javy 8, poziom średnio-zawansowany",
-        "startDate": "2020-10-10T08:00:00.274",
-        "endDate": "2020-10-20T17:00:00.274",
-        "participantsLimit": 6,
-        "participantsNumber": 0,
-        "status": "ACTIVE"
-    }
+token = {token}
 ```
+lub można przekazać w parametrze HTTP o kluczu token.
 
- **Zapisywanie studenta na kurs**         - POST *http://localhost:8087/courses/{courseCode}/student/{studentId}*
+### Resource Service 
+Usługa posiadająca zasoby, do których chcę się dostać klient.
+Aplikacja posiada 3 endpointy do których wywołania potrzebne są różne uprawnienai. 
 
- **Wyświetlanie listy uczestników kursu**      -GET *http://localhost:8087/courses/{code}/members*
- 
- **Zakończenie zapisów na kurs**            POST *http://localhost:8087/courses/{code}/finish-enroll*
- 
-### Notification Service 
-Usługa odpowiedzialna za pobieranie wiadomości z kolejki RabbitMQ i wysyłanie notyfikacji.
- 
- **Wysyłanie notyfikacji**  - GET *http://localhost:8099/email*
-Przykładowe body:
- ```
- {
-    "to":"konik@gmail.com",
-    "title":"Witaj zwierzaku!",
-    "content":"Czy to prawda, że konie są rodziną z kucami?"
- }
- ```
+ **Publiczny:**
+GET *http://localhost:7777/public*
+
+ **Dla użytkownika z rolą USER:**
+GET *http://localhost:7777/user*
+
+Aby autoryzacja przebiegłą prawidłowo należy podać w nagłówku 
+```
+Authorisation: Bearer {token_usera}
+```
+Do przekazania wartości tokenu można wykorzystać zakładkę Authorisation i type Bearer token w Postman.
   
-
- 
+  **Dla użytkownika z rolą ADMIN:**
+GET *http://localhost:7777/admin*
+Aby autoryzacja przebiegłą prawidłowo należy podać w nagłówku 
+```
+Authorisation: Bearer {token_admina}
+```
+Do przekazania wartości tokenu można wykorzystać zakładkę Authorisation i type Bearer token w Postman.
+  
